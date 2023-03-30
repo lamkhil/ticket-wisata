@@ -29,7 +29,15 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+// Load the web routing file.
+if (is_file(ROOTPATH . 'routes/web.php')) {
+    require ROOTPATH . 'routes/web.php';
+}
+
+// Load the api routing file.
+if (is_file(ROOTPATH . 'routes/api.php')) {
+    require ROOTPATH . 'routes/api.php';
+}
 
 /*
  * --------------------------------------------------------------------

@@ -21,6 +21,16 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'auth'       => \App\Filters\Auth\AuthenticationFilter::class,
+        'auth.basic' => \App\Filters\Auth\AuthenticationBasicFilter::class,
+        'can'        => \App\Filters\Auth\AuthorizeFilter::class,
+        'confirm'    => [
+            \App\Filters\Auth\AuthenticationFilter::class,
+            \App\Filters\Auth\ConfirmPasswordFilter::class,
+        ],
+        'guest'    => \App\Filters\Auth\RedirectAuthenticatedFilter::class,
+        'throttle' => \App\Filters\Auth\ThrottleFilter::class,
+        'verified' => \App\Filters\Auth\EmailVerifiedFilter::class,
     ];
 
     /**

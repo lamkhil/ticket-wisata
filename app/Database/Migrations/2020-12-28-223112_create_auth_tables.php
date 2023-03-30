@@ -4,8 +4,11 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateUser extends Migration
+class CreateAuthTables extends Migration
 {
+    /**
+     * {@inheritdoc}
+     */
     public function up()
     {
         /**
@@ -14,7 +17,8 @@ class CreateUser extends Migration
         $this->forge->addField([
             'id'                => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'email'             => ['type' => 'varchar', 'constraint' => 255],
-            'username'          => ['type' => 'varchar', 'constraint' => 30, 'null' => true],
+            'username'              => ['type' => 'varchar', 'constraint' => 30, 'null' => true],
+            'role'              => ['type' => 'varchar', 'constraint' => 10, 'default' => 'user'],
             'password'          => ['type' => 'varchar', 'constraint' => 255],
             'email_verified_at' => ['type' => 'datetime', 'null' => true],
             'remember_token'    => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
@@ -25,7 +29,6 @@ class CreateUser extends Migration
 
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('email');
-        $this->forge->addUniqueKey('username');
 
         $this->forge->createTable('users', true);
 
@@ -65,7 +68,7 @@ class CreateUser extends Migration
     //--------------------------------------------------------------------
 
     /**
-     * drop table.
+     * {@inheritdoc}
      */
     public function down()
     {

@@ -11,3 +11,5 @@ Auth::routes();
 $routes->get('/','Home::index');
 
 $routes->get('/dashboard', 'Home::dashboard', ['filter' => 'auth:web']);
+
+$routes->get('/admin', 'Home::admin');

@@ -37,6 +37,7 @@ class UserModel extends Model implements UserProviderInterface
         'email',
         'username',
         'password',
+        'role',
         'email_verified_at',
         'remember_token',
     ];

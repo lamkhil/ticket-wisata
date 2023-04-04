@@ -49,4 +49,13 @@ class User extends Entity implements
 
         return $this;
     }
+
+    // public function setRole($role = null){
+    //     if ($role == null) {
+    //         $this->attributes['role'] = "user";
+    //     }else{
+    //         $this->attributes['password'] = 'admin';
+    //     }
+    //     return $this;
+    // }
 }

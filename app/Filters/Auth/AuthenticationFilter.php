@@ -89,6 +89,6 @@ class AuthenticationFilter implements FilterInterface
      */
     protected function redirectTo($request)
     {
-        return redirect()->route('login');
+        return redirect('login');
     }
 }

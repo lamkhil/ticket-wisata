@@ -3,17 +3,20 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
+use App\Models\UserModel;
 use CodeIgniter\Http\RedirectResponse;
 use CodeIgniter\View\RendererInterface;
 use Fluent\Auth\Facades\Auth;
 use Fluent\Auth\Facades\RateLimiter;
 use Fluent\Auth\Helpers\Str;
+use Fluent\Auth\Entities\User;
 
 use function func_get_args;
 use function is_array;
 use function is_bool;
 use function strtolower;
 use function trim;
+use Google_Client;
 
 class AuthenticatedSessionController extends BaseController
 {
@@ -38,7 +41,7 @@ class AuthenticatedSessionController extends BaseController
      */
     public function new()
     {
-        return view('Auth/login');
+        return $this->render('auth.login');
     }
 
     /**
@@ -48,40 +51,43 @@ class AuthenticatedSessionController extends BaseController
      */
     public function create()
     {
-        // Populate request to object.
-        $request = (object) $this->request->getPost();
+        try {
+            $credentials = [];
+            $request = json_decode(json_encode((object) $this->request->getPost()), true);
+            if (isset($request['credential'])) {
+                // Populate request to object.
+                $client = new Google_Client(['client_id' => "177019467763-3lmq8p5en6eanh15boil0n14te8o0ntv.apps.googleusercontent.com"]);
+                $payload = $client->verifyIdToken($request['credential']);
+                $userModel = new UserModel();
+                $user = $userModel->where('email', $payload['email'])->first();
+                if ($user == null) {
+                    $userModel->insert(new User([
+                        'username' => $payload['name'],
+                        'email'    => $payload['email'],
+                        'password' => $payload['sub'],
+                    ]));
+                }
 
-        // Credentials for attempt login.
-        $credentials = ['email' => $request->email, 'password' => $request->password];
+                // Credentials for attempt login.
+                $credentials = ['email' => $payload['email'], 'password' => $payload['sub']];
+            } else {
+                // Credentials for attempt login.
+                $credentials = ['email' => $request['email'], 'password' => $request['password']];
+            }
 
-        // Credential if remember.
-        $remember = $this->filled('remember');
+            // Credential if remember.
+            $remember = true;
 
-        // Rate limiter how many can be attempt.
-        if (RateLimiter::tooManyAttempts($this->throttleKey(), static::MAX_ATTEMPT)) {
-            $seconds = RateLimiter::availableIn($this->throttleKey());
+            if (!Auth::attempt($credentials, $remember)) {
 
-            return redirect()->back()->withInput()->with('error', lang('Auth.throttle', [$seconds]));
+                return redirect()->back()->withInput()->with('error', lang('Auth.failed'));
+            }
+
+            // Finnaly we're success login.
+            return redirect('/')->withCookies();
+        } catch (\Throwable $th) {
+            return $th->getMessage();
         }
-
-        // Validate this credentials request.
-        if (! $this->validate(['email' => 'required|valid_email', 'password' => 'required'])) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        // Try to login this credentials.
-        if (! Auth::attempt($credentials, $remember)) {
-            // Save throttle state.
-            RateLimiter::hit($this->throttleKey(), static::DECAY_SECOND);
-
-            return redirect()->back()->withInput()->with('error', lang('Auth.failed'));
-        }
-
-        // Clear the throttle key
-        RateLimiter::clear($this->throttleKey());
-
-        // Finnaly we're success login.
-        return redirect(config('Auth')->home)->withCookies();
     }
 
     /**
@@ -91,51 +97,12 @@ class AuthenticatedSessionController extends BaseController
      */
     public function delete()
     {
+        $role = Auth::user()->role;
         Auth::logout();
-
-        return redirect('/')->withCookies();
-    }
-
-    /**
-     * Determine if the request contains a non-empty value for an input item.
-     *
-     * @param  string|array  $key
-     * @return bool
-     */
-    protected function filled($key)
-    {
-        $keys = is_array($key) ? $key : func_get_args();
-
-        foreach ($keys as $value) {
-            if ($this->isEmptyString($value)) {
-                return false;
-            }
+        if ($role == 'user') {
+            return redirect('/')->withCookies();
+        } else {
+            return redirect('admin')->withCookies();
         }
-
-        return true;
-    }
-
-    /**
-     * Determine if the given input key is an empty string for "has".
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    protected function isEmptyString($key)
-    {
-        $value = $this->request->getVar($key);
-
-        return ! is_bool($value) && ! is_array($value) && trim((string) $value) === '';
-    }
-
-    /**
-     * Get the rate limiting throttle key for the request.
-     *
-     * @param object $request
-     * @return string
-     */
-    public function throttleKey()
-    {
-        return strtolower(Str::extractName($this->request->getPost('email'))) . '_' . str_replace("::", "", $this->request->getIPAddress());
     }
 }

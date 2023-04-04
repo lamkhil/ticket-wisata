@@ -8,7 +8,8 @@
         "php": "^7.4 || ^8.0",
         "agungsugiarto/codeigniter4-authentication": "^2.0",
         "codeigniter4/framework": "^4.0",
-        "eftec/bladeone": "^4.8"
+        "eftec/bladeone": "^4.8",
+        "google/apiclient": "^2.13"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

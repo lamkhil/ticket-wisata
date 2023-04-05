@@ -34,13 +34,13 @@
 <div class="container d-flex justify-content-center mt-50 mb-50">
 
     <div class="row">
-        @for($i=0;$i<9;$i++) 
-        <div class="col-md-4 mt-2">
+     @foreach($wisata as $item)
+     <div class="col-md-4 mt-2">
             <div class="card">
                 <div class="card-body">
                     <div class="card-img-actions">
 
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-9Wn3B0_OsSI6P6lkfLoNG4SgebkoETVS9goIy_LG&s" class="card-img img-fluid" width="96" height="350" alt="">
+                        <img src="{{$item['photo_path']}}" class="card-img img-fluid" width="96" height="350" alt="">
 
 
                     </div>
@@ -49,17 +49,17 @@
                 <div class="card-body bg-light text-center">
                     <div class="mb-0">
                         <h6 class="font-weight-semibold mb-0">
-                            <a href="#" class="text-default mb-2" data-abc="true">Nongko Ijo</a>
+                            <a href="#" class="text-default mb-2" data-abc="true">{{$item['nama']}}</a>
                         </h6>
                     </div>
 
-                    <h3 class="mb-0 font-weight-semibold">Rp 5.000</h3>
+                    <h3 class="mb-0 font-weight-semibold">Rp {{$item['harga']}}</h3>
 
-                    <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-0"></i> Order</button>
+                    <button type="button" class="btn bg-success text-white"><i class="fa fa-cart-plus mr-0"></i> Order</button>
                 </div>
             </div>
     </div>
-    @endfor
+     @endforeach
 </div>
 </div>
 

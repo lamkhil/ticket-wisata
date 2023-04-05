@@ -19,7 +19,7 @@ class Home extends BaseController
     public function dashboard()
     {
         if (Auth::user()->role == 'user') {
-            return $this->render('pages.user.dashboard');
+            return $this->render('pages.user.dashboard', ['wisata'=>(new WisataModel())->findAll()]);
         }else{
             return $this->render('pages.admin.dashboard');
         }

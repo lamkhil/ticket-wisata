@@ -28,8 +28,8 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'billing' ? ' active bg-gradient-success' : '' }}  "
-                    href="{{ base_url('billing') }}">
+                <a class="nav-link text-white {{ $activePage == 'transaksi' ? ' active bg-gradient-success' : '' }}  "
+                    href="{{ base_url('transaksi') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
@@ -37,8 +37,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'virtual-reality' ? ' active bg-gradient-success' : '' }}  "
-                    href="{{ base_url('virtual-reality') }}">
+                <a class="nav-link text-white {{ $activePage == 'scan' ? ' active bg-gradient-success' : '' }}  "
+                    href="{{ base_url('scan') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">view_in_ar</i>
                     </div>
@@ -46,8 +46,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'rtl' ? ' active bg-gradient-success' : '' }}  "
-                    href="{{ base_url('rtl') }}">
+                <a class="nav-link text-white {{ $activePage == 'wisata' ? ' active bg-gradient-success' : '' }}  "
+                    href="{{ base_url('wisata') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
                     </div>

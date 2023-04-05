@@ -30,4 +30,15 @@ class Home extends BaseController
             return $this->render('auth.admin');
         }
     }
+
+    public function transaksi(){
+        return $this->render('pages.admin.transaksi');
+    }
+
+    public function scan(){
+        return $this->render('pages.admin.scan');
+    }
+    public function wisata(){
+        return $this->render('pages.admin.wisata');
+    }
 }

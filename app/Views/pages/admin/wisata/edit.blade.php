@@ -17,6 +17,7 @@ $user=Auth::user();
             <span class="mask  bg-gradient-success  opacity-6"></span>
         </div>
         <div class="card card-body mx-3 mx-md-4 mt-n12">
+            
             <div class="card card-plain h-100">
                 <div class="card-header pb-0 p-3">
                     <div class="row">
@@ -26,10 +27,16 @@ $user=Auth::user();
                     </div>
                 </div>
                 <div class="card-body p-3">
-                    <form method='POST' action="{{ base_url('wisata/create') }} " enctype="multipart/form-data">
+                    <form method='POST' action="{{ base_url('wisata/').$wisata['id'] }} " enctype="multipart/form-data">
                         {!!csrf_field()!!}
                         <div class=" row">
-                        <div class="mb-3 col-md-12">
+                            
+                        <div class="mb-3 col-md-1">
+                        <div class="avatar avatar-xl position-relative">
+                        <img src="{{$wisata['photo_path']}}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                    </div>
+                        </div>
+                        <div class="mb-3 col-md-11">
                             <label for="upload-photo" class="form-label">Photo</label>
                             <input type="file" class="form-control border border-2 p-2" id="upload-photo" name="photo">
                             @error('photo')
@@ -38,7 +45,7 @@ $user=Auth::user();
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Nama Wisata</label>
-                            <input type="text" name="nama" class="form-control border border-2 p-2">
+                            <input type="text" name="nama" class="form-control border border-2 p-2" value="{{$wisata['nama']}}">
                             @error('nama')
                             <p class='text-danger inputerror'>{{ $message }} </p>
                             @enderror
@@ -46,7 +53,7 @@ $user=Auth::user();
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label">Harga Tiket</label>
-                            <input type="number" name="harga" class="form-control border border-2 p-2" >
+                            <input type="number" name="harga" class="form-control border border-2 p-2" value="{{$wisata['harga']}}">
                             @error('harga')
                             <p class='text-danger inputerror'>{{ $message }} </p>
                             @enderror
@@ -54,7 +61,7 @@ $user=Auth::user();
 
                         <div class="mb-3 col-md-12">
                             <label for="floatingTextarea2">Alamat</label>
-                            <textarea class="form-control border border-2 p-2" placeholder=" Say something about yourself" id="floatingTextarea2" name="alamat" rows="4" cols="50"></textarea>
+                            <textarea class="form-control border border-2 p-2" placeholder=" Say something about yourself" id="floatingTextarea2" name="alamat" rows="4" cols="50">{{$wisata['alamat']}}</textarea>
                             @error('alamat')
                             <p class='text-danger inputerror'>{{ $message }} </p>
                             @enderror

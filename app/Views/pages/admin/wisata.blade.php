@@ -1,5 +1,6 @@
 @php
 use Fluent\Auth\Facades\Auth;
+use App\Models\TiketModel;
 
 $user=Auth::user();
 @endphp
@@ -37,37 +38,39 @@ $user=Auth::user();
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($wisata as $item)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="{{ base_url('assets') }}/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                    <img src="{{$item['photo_path']}}" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Nongko Ijo</h6>
-                                                    <p class="text-xs text-secondary mb-0">Rp 5.000
+                                                    <h6 class="mb-0 text-sm">{{$item['nama']}}</h6>
+                                                    <p class="text-xs text-secondary mb-0">Rp {{$item['harga']}}
                                                     </p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">8000</span>
+                                            <span class="badge badge-sm bg-gradient-success">{{sizeof($item['tiket'])}}</span>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">Kare, Madiun Regency, East Java 63182</span>
+                                            <span class="text-secondary text-xs font-weight-bold">{{$item['alamat']}}</span>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Show
-                                            </a><br>
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a href="{{base_url('wisata').'/'.$item['id']}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Edit
                                             </a><br>
-                                            <a href="javascript:;" class="text-danger font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a href="javascript:;" id="submitForm" onclick="submit()" class="text-danger font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Delete
+                                                <form action="{{base_url('wisata/'.$item['id'].'/delete')}}" method="POST">
+                                                    {!!csrf_field()!!}
+                                                </form>
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
 
                                 </tbody>
                             </table>
@@ -78,4 +81,24 @@ $user=Auth::user();
         </div>
     </div>
 </main>
+
+<script>
+    function submit() {
+        var form = document.getElementById('submitForm').firstElementChild;
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+
+                form.submit();
+            }
+        });
+    }
+</script>
 @endsection

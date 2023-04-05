@@ -19,5 +19,9 @@ $routes->group('/',['filter'=>'auth:web'], static function($routes){
     $routes->get('wisata', 'Home::wisata');
     $routes->group('wisata', ['namespace'=>'\App\Controllers\Admin'], static function($routes){
         $routes->get('create', 'WisataController::index');
+        $routes->post('create', 'WisataController::create');
+        $routes->get('(:num)', 'WisataController::edit/$1');
+        $routes->post('(:num)', 'WisataController::update/$1');
+        $routes->post('(:num)/delete', 'WisataController::delete/$1');
     });
 });

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controllers;
+
+use App\Models\WisataModel;
 use Fluent\Auth\Facades\Auth;
 
 class Home extends BaseController
@@ -39,6 +41,6 @@ class Home extends BaseController
         return $this->render('pages.admin.scan');
     }
     public function wisata(){
-        return $this->render('pages.admin.wisata');
+        return $this->render('pages.admin.wisata', ['wisata'=>(new WisataModel())->findAll()]);
     }
 }

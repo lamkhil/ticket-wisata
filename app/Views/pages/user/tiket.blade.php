@@ -1,18 +1,40 @@
-@php
-use Fluent\Auth\Facades\Auth;
+@extends('app.layout')
+@push('style')
+<style>
+    body {
+        background-color: #378967;
+    }
 
-$user=Auth::user();
-@endphp
-@extends('app.layout',['bodyClass'=>'g-sidenav-show bg-gray-200'])
+    .title-user {
+        width: 80vw;
+        height: auto;
+        margin-left: 4vw;
+        margin-top: 70px;
 
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 7vw;
+
+        background: linear-gradient(79.98deg, #F4ECEC 29.59%, rgba(255, 255, 255, 0) 111.93%), #222222;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+
+    }
+</style>
+@if(session('midtrans'))
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{session('midtrans')['client_id']}}"></script>
+@endif
+@endpush
 @section('content')
-@include('app.navbar.sidebar',['activePage'=>'transaksi'])
+@include('app.navbar.auth',['titlePage'=>'Tiket Anda'])
 
-<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg " style=" overflow-x:hidden;">
-    <!-- Navbar -->
-    @include('app.navbar.admin',['titlePage'=>'Data Pemesan'])
-    <!-- End Navbar -->
-    <div class="container-fluid py-4">
+<!-- <div class="title-user">Pemesanan Tiket Wisata di Kabupaten Madiun</div>
+<div class="px-auto text-center text-light font-weight-bold h4 mt-3">Pilih Destinasi</div> -->
+
+
+<div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -28,8 +50,6 @@ $user=Auth::user();
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Wisata</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Pengunjung</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Jumlah</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -55,9 +75,6 @@ $user=Auth::user();
                                             </div>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">{{$item['user']->username}}</span>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
                                             <span class="badge badge-sm bg-gradient-success">{{$item['amount']/$item['wisata']['harga']}}</span>
                                         </td>
                                         <td class="align-middle text-center text-sm">
@@ -70,7 +87,7 @@ $user=Auth::user();
                                             <a href="{{base_url('tiket').'/show?slug='.$item['slug']}}" class="badge badge-sm bg-gradient-info" data-toggle="tooltip" data-original-title="Edit user">
                                                 Lihat Tiket
                                             </a><br>
-
+                                            
                                         </td>
                                     </tr>
                                     @endforeach
@@ -83,5 +100,26 @@ $user=Auth::user();
             </div>
         </div>
     </div>
-</main>
-@endsection
+
+@if(session('midtrans'))
+<script type="text/javascript">
+    window.snap.pay("{{session('midtrans')['token']}}", {
+        onSuccess: function(result) {
+            window.location.replace("{{base_url('order/check?order_id=')}}"+result.order_id);
+        },
+        onPending: function(result) {
+            /* You may add your own implementation here */
+            window.location.replace("{{base_url('order/check?order_id=')}}"+result.order_id);
+        },
+        onError: function(result) {
+            /* You may add your own implementation here */
+            window.location.replace("{{base_url('order/check?order_id=')}}"+result.order_id);
+        },
+        onClose: function() {
+            /* You may add your own implementation here */
+        }
+    })
+</script>
+@endif
+
+@endsection('content')

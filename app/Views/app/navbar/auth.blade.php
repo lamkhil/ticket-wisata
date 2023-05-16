@@ -23,7 +23,7 @@ $user=Auth::user();
                     </a>
                 </li>
                 <li class="nav-item d-flex px-3 align-items-center">
-                    <a href="/" class="nav-link text-light font-weight-bold px-0">
+                    <a href="/tiket" class="nav-link text-light font-weight-bold px-0">
                         <i class="fa fa-ticket text-white cursor-pointer "></i>
                         <span class="d-sm-inline d-none text-light  font-weight-bold">Tiket</span>
                     </a>

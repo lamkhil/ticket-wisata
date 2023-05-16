@@ -14,29 +14,29 @@
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
-# CI_ENVIRONMENT = production
+CI_ENVIRONMENT = development
 
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
 
-# app.baseURL = ''
+app.baseURL = 'http://localhost:8080/'
 # If you have trouble with `.`, you could also use `_`.
 # app_baseURL = ''
-# app.forceGlobalSecureRequests = false
+app.forceGlobalSecureRequests = true
 # app.CSPEnabled = false
 
 #--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
+database.default.hostname = 127.0.0.1
+database.default.database = ticket-wisata
+database.default.username = root
+database.default.password = 
+database.default.DBDriver = MySQLi
 # database.default.DBPrefix =
-# database.default.port = 3306
+database.default.port = 3306
 
 # database.tests.hostname = localhost
 # database.tests.database = ci4_test
@@ -89,10 +89,10 @@
 # ENCRYPTION
 #--------------------------------------------------------------------
 
-# encryption.key =
-# encryption.driver = OpenSSL
-# encryption.blockSize = 16
-# encryption.digest = SHA512
+encryption.key = hex2bin:d4810bb2d6041172661f1b6f45d02952029d43b0693b498e013bec250e41d691
+encryption.driver = OpenSSL
+encryption.blockSize = 16
+encryption.digest = SHA512
 
 #--------------------------------------------------------------------
 # HONEYPOT
@@ -118,6 +118,14 @@
 # security.redirect = false
 # security.samesite = 'Lax'
 
+security.tokenName  = 'csrf_token_name'
+security.headerName = 'X-CSRF-TOKEN'
+security.cookieName = 'csrf_cookie_name'
+security.expires    = 7200
+security.regenerate = true
+security.redirect   = true
+security.samesite   = 'Lax'
+
 #--------------------------------------------------------------------
 # SESSION
 #--------------------------------------------------------------------
@@ -130,14 +138,41 @@
 # session.timeToUpdate = 300
 # session.regenerateDestroy = false
 
+app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'
+app.sessionCookieName = 'ci_session'
+app.sessionMatchIP = false
+app.sessionTimeToUpdate = 300
+app.sessionRegenerateDestroy = false
+
 #--------------------------------------------------------------------
 # LOGGER
 #--------------------------------------------------------------------
 
-# logger.threshold = 4
+logger.threshold = 4
 
 #--------------------------------------------------------------------
 # CURLRequest
 #--------------------------------------------------------------------
 
 # curlrequest.shareOptions = true
+
+#--------------------------------------------------------------------
+# Socialite service key
+#--------------------------------------------------------------------
+
+socialite.services.github.client_id='' #required
+socialite.services.github.client_secret='' #required
+socialite.services.github.redirect=http://localhost:8080/socialite/github/callback
+
+#--------------------------------------------------------------------
+# EMAIL
+#--------------------------------------------------------------------
+
+email.fromEmail = 'codeigniter4-authentication@mail.com'
+email.fromName = 'CodeIgniter4 Authentication'
+email.protocol = 'smtp'
+email.SMTPHost = 'smtp.mailtrap.io'
+email.SMTPUser = '' // required
+email.SMTPPass = '' // required
+email.SMTPPort = 2525
+email.SMTPCrypto = ''

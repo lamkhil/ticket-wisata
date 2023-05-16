@@ -1,4 +1,9 @@
 
+@php
+use Fluent\Auth\Facades\Auth;
+
+$user=Auth::user();
+@endphp
 
 <aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
@@ -54,6 +59,17 @@
                     <span class="nav-link-text ms-1">Wisata</span>
                 </a>
             </li>
+            @if($user->role == 'super')
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'user' ? ' active bg-gradient-success' : '' }}  "
+                    href="{{ base_url('user') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Admin</span>
+                </a>
+            </li>
+            @endif
         </ul>
     </div>
 </aside>

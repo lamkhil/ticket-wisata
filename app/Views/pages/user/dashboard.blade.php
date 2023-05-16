@@ -23,6 +23,9 @@
 
     }
 </style>
+@if(session('midtrans'))
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{session('midtrans')['client_id']}}"></script>
+@endif
 @endpush
 @section('content')
 @include('app.navbar.auth',['titlePage'=>'Kampung Pesilat'])
@@ -34,8 +37,8 @@
 <div class="container d-flex justify-content-center mt-50 mb-50">
 
     <div class="row">
-     @foreach($wisata as $item)
-     <div class="col-md-4 mt-2">
+        @foreach($wisata as $item)
+        <div class="col-md-4 mt-2">
             <div class="card">
                 <div class="card-body">
                     <div class="card-img-actions">
@@ -55,12 +58,33 @@
 
                     <h3 class="mb-0 font-weight-semibold">Rp {{$item['harga']}}</h3>
 
-                    <button type="button" class="btn bg-success text-white"><i class="fa fa-cart-plus mr-0"></i> Order</button>
+                    <a href="order/{{$item['id']}}" class="btn bg-success text-white"><i class="fa fa-cart-plus mr-0"></i> Order</a>
                 </div>
             </div>
+        </div>
+        @endforeach
     </div>
-     @endforeach
 </div>
-</div>
+
+@if(session('midtrans'))
+<script type="text/javascript">
+    window.snap.pay("{{session('midtrans')['token']}}", {
+        onSuccess: function(result) {
+            window.location.replace("{{base_url('order/check?order_id=')}}"+result.order_id);
+        },
+        onPending: function(result) {
+            /* You may add your own implementation here */
+            window.location.replace("{{base_url('order/check?order_id=')}}"+result.order_id);
+        },
+        onError: function(result) {
+            /* You may add your own implementation here */
+            window.location.replace("{{base_url('order/check?order_id=')}}"+result.order_id);
+        },
+        onClose: function() {
+            /* You may add your own implementation here */
+        }
+    })
+</script>
+@endif
 
 @endsection('content')

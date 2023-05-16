@@ -29,6 +29,8 @@
 
     @yield('content')
 
+    <br><br><br><br><br>
+
     <script src="{{ base_url('assets') }}/js/core/popper.min.js"></script>
     <script src="{{ base_url('assets') }}/js/core/bootstrap.min.js"></script>
     <script src="{{ base_url('assets') }}/js/plugins/perfect-scrollbar.min.js"></script>

@@ -13,9 +13,9 @@ class AdminSeeder extends Seeder
         $user = new UserModel();
         $user->insert(new User([
             'username' => "Admin Tiket",
-            'email'    => "admin@tiketmadiun.com",
-            'password' => "admin",
-            'role'     => "admin"
+            'email'    => "super@admin.com",
+            'password' => "adminsuper",
+            'role'     => "super"
         ]));
     }
 }

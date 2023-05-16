@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\TransaksiModel;
+use App\Models\UserModel;
 use App\Models\WisataModel;
 use Fluent\Auth\Facades\Auth;
 
@@ -34,7 +36,7 @@ class Home extends BaseController
     }
 
     public function transaksi(){
-        return $this->render('pages.admin.transaksi');
+        return $this->render('pages.admin.transaksi',['transaksi'=>(new TransaksiModel())->findAll()]);
     }
 
     public function scan(){
@@ -42,5 +44,9 @@ class Home extends BaseController
     }
     public function wisata(){
         return $this->render('pages.admin.wisata', ['wisata'=>(new WisataModel())->findAll()]);
+    }
+
+    public function user(){
+        return $this->render('pages.admin.user.index', ['admin'=>(new UserModel())->where('role','admin')->findAll()]);
     }
 }

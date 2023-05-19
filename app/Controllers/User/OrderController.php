@@ -35,7 +35,7 @@ class OrderController extends BaseController
             $data = json_decode(json_encode($request), true);
             $wisata = (new WisataModel())->find($data['id']);
             $trans_id = (new TransaksiModel())->insert([
-                "slug" => strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $wisata['nama'] . date("l jS \of F Y h:i:s A")))),
+                "slug" => ((int)date('Y')+(int)date('m')+(int)Auth::user()->id+(int)+(int)date('s')+(int)date('i')+(int)date('H')+(int)date('d')),
                 "user_id" => Auth::user()->id,
                 "amount" => (new WisataModel())->find($data['id'])['harga'] * $data['qty'],
                 "status" => 'pending',
@@ -45,9 +45,9 @@ class OrderController extends BaseController
             $transaksi = (new TransaksiModel())->find($trans_id);
 
             $client = \Config\Services::curlrequest();
-            $midtransKey = base64_encode('SB-Mid-server-0m1G2bUWE2B4ltadHqGpXUnU:SB-Mid-client-uof36JrCEXLFMfiZ');
+            $ClientKey = base64_encode('SB-Mid-server-I0vLSM9n5ZF7MnEvmknDuYzr:SB-Mid-client-39jXTo9ngkmSZeJ2');
             $response = $client
-                ->setHeader('Authorization', "Basic $midtransKey")
+                ->setHeader('Authorization', "Basic $ClientKey")
                 ->setHeader('Accept', 'application/json')
                 ->setHeader('Content-Type', 'application/json')
                 ->setBody(json_encode([
@@ -71,7 +71,7 @@ class OrderController extends BaseController
             $result = json_decode($response->getBody(), true);
             return redirect('dashboard')->with('midtrans', [
                 'token' => $result['token'],
-                'client_id' => 'SB-Mid-client-uof36JrCEXLFMfiZ'
+                'client_id' => 'SB-Mid-client-39jXTo9ngkmSZeJ2'
             ]);
         } catch (\Throwable $th) {
             echo $th . '<br><br><br><br><br><br><br><br><br><br>';

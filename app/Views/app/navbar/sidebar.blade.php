@@ -22,6 +22,7 @@ $user=Auth::user();
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Pages</h6>
             </li>
+            @if($user->role == 'admin')
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active bg-gradient-success' : '' }} "
                     href="{{ base_url('dashboard') }}">
@@ -59,6 +60,7 @@ $user=Auth::user();
                     <span class="nav-link-text ms-1">Wisata</span>
                 </a>
             </li>
+            @endif
             @if($user->role == 'super')
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'user' ? ' active bg-gradient-success' : '' }}  "

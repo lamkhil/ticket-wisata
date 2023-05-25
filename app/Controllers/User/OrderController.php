@@ -94,7 +94,7 @@ class OrderController extends BaseController
             $transaksi = $transModel->where('slug', $data['order_id'])->first();
             //dd($transaksi);
             $client = \Config\Services::curlrequest();
-            $midtransKey = base64_encode('SB-Mid-server-0m1G2bUWE2B4ltadHqGpXUnU:SB-Mid-client-uof36JrCEXLFMfiZ');
+            $midtransKey = base64_encode('SB-Mid-server-I0vLSM9n5ZF7MnEvmknDuYzr:SB-Mid-client-39jXTo9ngkmSZeJ2');
             $response = $client
                 ->setHeader('Authorization', "Basic $midtransKey")
                 ->setHeader('Accept', 'application/json')

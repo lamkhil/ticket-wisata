@@ -36,6 +36,8 @@ $user=Auth::user();
                                             Total Pembayaran</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Tanggal Transaksi</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                     </tr>
                                 </thead>
@@ -65,6 +67,9 @@ $user=Auth::user();
                                         </td>
                                         <td class="align-middle text-center">
                                             <span class="badge badge-sm bg-gradient-{{$item['midtrans_result']!=null?json_decode($item['midtrans_result'],true)['transaction_status']=='settlement'?'success':'danger':'danger'}} ">{{$item['midtrans_result']!=null?json_decode($item['midtrans_result'],true)['transaction_status']=='settlement'?'Sukses':'Gagal':'Gagal'}}</span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="mb-0 text-sm">{{$item['created_at']}}</span>
                                         </td>
                                         <td class="align-middle text-center">
                                             <a href="{{base_url('tiket').'/show?slug='.$item['slug']}}" class="badge badge-sm bg-gradient-info" data-toggle="tooltip" data-original-title="Edit user">

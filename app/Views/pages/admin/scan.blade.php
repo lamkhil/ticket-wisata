@@ -26,16 +26,19 @@ $user=Auth::user();
 <script>
     var resultContainer = document.getElementById('qr-reader-results');
     var lastResult, countResults = 0;
+    const Http = new XMLHttpRequest();
 
     function onScanSuccess(decodedText, decodedResult) {
         if (decodedText !== lastResult) {
             ++countResults;
             lastResult = decodedText;
             // Handle on success condition with the decoded message.
-            Toast.fire({
-                icon: 'success',
-                title: "Tiket berhasil scan, silahkan masuk :)"
-            })
+            console.log(lastResult);
+
+            const url = '{{base_url()}}klaim?kode=' + lastResult;
+            Http.open("GET", url);
+            Http.send();
+
         }
     }
 
@@ -45,6 +48,25 @@ $user=Auth::user();
             qrbox: 250
         });
     html5QrcodeScanner.render(onScanSuccess);
+
+    Http.onreadystatechange = (e) => {
+        if (Http.readyState === 4 && Http.status === 200) {
+            var result = JSON.parse(Http.response);
+            if (result.success) {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "Tiket berhasil di scan, silahkan masuk :)",
+                    icon: 'success'
+                })
+            }else{
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: result.message,
+                    icon: 'error'
+                })
+            }
+        }
+    }
 </script>
 
 @endsection

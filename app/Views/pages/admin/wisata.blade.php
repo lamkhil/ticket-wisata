@@ -62,7 +62,7 @@ $user=Auth::user();
                                             <a href="{{base_url('wisata').'/'.$item['id']}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Edit
                                             </a><br>
-                                            <a href="javascript:;" id="submitForm" onclick="submit()" class="text-danger font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a href="javascript:;" id="submitForm-{{$item['id']}}" onclick="submit({{$item['id']}})" class="text-danger font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Delete
                                                 <form action="{{base_url('wisata/'.$item['id'].'/delete')}}" method="POST">
                                                     {!!csrf_field()!!}
@@ -83,8 +83,8 @@ $user=Auth::user();
 </main>
 
 <script>
-    function submit() {
-        var form = document.getElementById('submitForm').firstElementChild;
+    function submit(id) {
+        var form = document.getElementById("submitForm-"+id).firstElementChild;
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
